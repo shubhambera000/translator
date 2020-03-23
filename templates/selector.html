@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="description" content="Fast, simple and light jQuery plugin to customize HTML selects">
+    <meta name="robots" content="all">
+    <title>Bell</title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/prism.min.css' %}">
+    <link href="{% static 'img/1.png' %}" rel="icon">
+</head>
+<body>
+
+
+<div class="header">
+    <h1><u>Bell </u></h1>
+    <p>Fast, simple and light <br>  customized text Converter</p>
+</div>
+
+<div class="center">
+    <ul class="features cf">
+
+        <li>
+            <div class="ico ico-lightweight"><b></b></div>
+            <p>Lightweight</p>
+        </li>
+        <li>
+            <div class="ico ico-custom"><b></b></div>
+            <p>Easily customizable</p>
+        </li>
+        <li>
+            <div class="ico ico-options"><b></b></div>
+            <p>Minimum Error Rate</p>
+        </li>
+        <li>
+            <div class="ico ico-jquery"><b></b></div>
+            <p>Sharp</p>
+        </li>
+
+    </ul>
+
+    <div class="button-group">
+        <div class="up">
+            <a class="bt" target="_blank" href="loader/">Picture(png,jpg,etc..)</a>
+            <a class="bt" target="_blank" href="speech/">speech File</a>
+            <a class="bt" target="_blank" href="/">Back</a>
+        </div>
+    </div>
+</div>
+
+<footer id="footer" class="footer">
+    <div class="footer-inner">
+        <div class="copyright">
+            Project maintained by
+            <span class="with-love">
+                    <i class="fa fa-heart"></i>
+                </span>
+            <span class="author" itemprop="copyrightHolder">shubham</span>
+        </div>
+
+        <div class="has-right">
+            <a class="theme-link" href="https://github.com/shubhambera000/">Github</a>
+        </div>
+        <div class="right">
+            <a class="theme-link" href="https://www.zyy1217.com">Blog</a>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'js/lib/jquery-1.11.2.min.js' %}"></script>
+<script src="{% static 'js/lib/prism.min.js' %}"></script>
+<script src="{% static 'js/select.min.js' %}"></script>
+<script src="{% static 'js/iconChange.min.js' %}"></script>
+
+<script>
+
+    $('#basic').Select({
+        width:350,
+        height:30,
+        maxHeight: 100
+    });
+
+    $('#other').Select({
+        width: 390,
+        height: 30,
+        model: [
+            {
+                "text": "Strawberries",
+                "value": "0",
+                "disabled": true
+            },
+            {
+                "text": "Mango",
+                "value": "1"
+            },
+            {
+                "text": "Bananas",
+                "value": "2"
+            },
+            {
+                "text": "Watermelon",
+                "value": "3"
+            }]
+    });
+
+
+    // Cache the target element
+    var $selectValue = $('#select_value').find('strong');
+    // Get initial value
+    $selectValue.text($('#get_value').val());
+    // Initialize Selectpick and bind to 'change' event
+    $('#get_value').change(function () {
+        $selectValue.text($(this).val());
+    }).Select({
+        width:350,
+        height:30
+    });
+
+    /*
+    * Set value*/
+    // Initialize Selectpick
+    $('#set_value').Select({
+        width:350,
+        height:30
+    });
+    //Bind the click event to button,and trigger the 'set' event of origin element
+    $('#set_first_option').on('click', function () {
+        $('#set_value').trigger('set', '0');
+    });
+    $('#set_second_option').on('click', function () {
+        $('#set_value').trigger('set', '1');
+    });
+    $('#set_third_option').on('click', function () {
+        $('#set_value').trigger('set', '2');
+    });
+
+//
+//    //Or you can also call the Selectpick Prototype method directly.
+//
+//    var $set_value = $('#set_value').Select()[0];
+//
+//    // Then call the setValue() method.
+//    $('#set_first_option').on('click', function () {
+//        $set_value.setValue(0);
+//    });
+//    $('#set_second_option').on('click', function () {
+//        $set_value.setValue(1);
+//    });
+//    $('#set_third_option').on('click', function () {
+//        $set_value.setValue(2);
+//    });
+
+
+
+    /*
+    * Change options on the fly
+    * */
+    var $dynamic = $('#dynamic').Select({
+        width:350,
+        height:30
+    })[0];
+
+    $('#bt_add_val').click(function () {
+        // Store the value in a variable
+        var value = $('#add_val').val();
+
+        // Append to original select
+        $dynamic.addData(value);
+        $('#add_val').val('');
+    });
+
+    /*
+    *Populate via ajax request
+    */
+    var $ajaxitem = $('#ajaxitem').Select(({
+        width:350,
+        height:30
+    }))[0];
+    $.ajax({
+        url: "file.json",
+        dataType: 'json',
+        success: function (result) {
+            $ajaxitem.setData(result);
+        },
+        error: function (xhr) {
+            alert("Error Message： " + xhr.status + " " + xhr.statusText);
+        }
+    });
+
+</script>
+</body>
+</html>
